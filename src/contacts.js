@@ -23,16 +23,30 @@ export async function getContactById(contactId) {
     return contact || null;
 };
 
-async function removeContact(contactId) {
+export async function removeContact(contactId) {
+
+    if (contactId.length !== 21) {
+        console.warn(`\x1B[31m Invalid id: ${contactId}`);
+        return null;
+    }
+
     const contactsList = await contacts();
-    const contact = contactsList.indexOf(contactId);
+
+    const index = contactsList.findIndex(contact => contact.id === contactId);
+
+    if (index === -1) {
+        console.log(`\x1B[31m No contact with this id: ${contactId}`)
+        return null;
+    };
+
+    const remContact = contactsList.splice(index, 1);
+
+    await fs.writeFile(contactsPath, JSON.stringify(contactsList, null, 2));
+
+    return remContact;
 };
 
 export async function addContact(name, email, phone) {
-
-    if (!name || !email || !phone) {
-        console.warn('Please enter full information (name, e-mail, phone)!')
-    };
 
     const contactsList = await contacts();
 
