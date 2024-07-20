@@ -2,12 +2,12 @@
   "name": "goit-node-cli",
   "version": "1.0.0",
   "description": "home work #1 for node.js",
-  "main": "src/index.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "node index",
+    "dev": "nodemon index"
   },
   "repository": {
     "type": "git",
