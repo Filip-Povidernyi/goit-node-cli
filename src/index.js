@@ -1,5 +1,5 @@
 import { program } from "commander";
-import { addContact, getContactById, listContacts } from "./contacts.js"
+import { addContact, getContactById, listContacts, removeContact } from "./contacts.js"
 
 program
     .option("-a, --action <type>", "choose action")
@@ -22,19 +22,35 @@ async function invokeAction({ action, id, name, email, phone }) {
 
         case "get":
             if (!id) {
-                console.warn("Please provide an id for the get action.");
+                console.warn("\x1B[31m Please provide an id for the get action.");
                 return;
             }
             const contactById = await getContactById(id);
-            console.table('contactById', contactById);
+            if (contactById === null) {
+                console.warn("\x1B[31m Please, check your id. It's wrong");
+                return;
+            };
+            console.table(contactById);
             break;
 
         case "add":
+            if (!name || !email || !phone) {
+                console.warn('\x1B[31m Please enter full information (name, e-mail, phone)!')
+            };
+
             addContact(name, email, phone)
             break;
 
         case "remove":
-            // ... id
+            if (!id) {
+                console.warn("\x1B[31m Please provide an id for the get action.");
+                return;
+            };
+            const contact = await removeContact(id);
+            if (contact) {
+                console.log(`Your contact with id: ${id} was removed`)
+                console.table(contact[0]);
+            };
             break;
 
         default:
