@@ -51,7 +51,7 @@ export async function removeContact(contactId) {
 
     await fs.writeFile(contactsPath, JSON.stringify(contactsList, null, 2));
 
-    return remContact;
+    return remContact[0];
 };
 
 export async function addContact(name, email, phone) {
